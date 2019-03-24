@@ -1,7 +1,6 @@
-var mongoose = require('mongoose');
-var schema = mongoose.Schema;
+const mongoose = require('mongoose');
 
-var VideoSchema = new Schema(
+const VideoSchema = new mongoose.Schema(
     {
         file: {type: String, unique: true, required: true},
         title: {type: String, required: true, maxlenght: 200},
