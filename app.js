@@ -2,21 +2,38 @@ var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
+var session = require("express-session");
+var bodyParser = require('body-parser');
 var logger = require('morgan');
 var stylus = require('stylus');
+var mongoose = require('mongoose');
+var mongoDB = 'mongodb://localhost/ivandb';
+var passport = require('passport');
+var LocalStrategy = require('passport-local').Strategy;
 
 var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+var membersRouter = require('./routes/members');
 var videosRouter = require('./routes/videos');
 
 var app = express();
 
 //Set up mongoose connection
-var mongoose = require('mongoose');
-var mongoDB = 'mongodb://localhost/ivandb';
 mongoose.connect(mongoDB, { useNewUrlParser: true });
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
+
+//Set up Passport
+passport.use(new LocalStrategy(
+    function(username, password, done) {
+        User.findOne({username: username}, function(err, user){
+            if(err) { return done(err);}
+            if(!user || !user.validPassword(password)) {
+                return done(null, false, {message: 'Incorrect Username or Password'});
+            }
+            return done(null, user);
+        });
+    }
+));
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -26,13 +43,16 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(session({ secret: "bobthebuilder", resave: false, saveUninitialized: false}));
 app.use(stylus.middleware(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
 app.use('/videos', videosRouter);
-
+app.use('/members', membersRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
