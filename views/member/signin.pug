@@ -1,0 +1,13 @@
+extends ../layout
+
+block content
+    
+    form(method='POST' action='/member/signin')
+        div.form-group
+            label(for='username') Username:
+            input#email.form-control(type='text', placeholder='yourusername' name='username')
+        div.form-group
+            label(for='pw') Password:
+            input#pw.form-control(type='password' name='password')
+        div.form-group
+            button.btn.btn-primary(type='submit') Sign in

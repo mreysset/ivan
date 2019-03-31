@@ -9,9 +9,14 @@ html
             p
                 a.logo(href='/', target='_self') Logo
             p
-                a.signin(href='/signin', target='-self') Sign In
+                a.signin(href='/member/signin') Sign In
             p
-                a.signup(href='/signup', target='_self') Sign Up
+                a.signup(href='/member/signup') Sign Up
+            p
+                a.logout(href='/member/signout') Sign Out
+                
+        if messages
+            p Message: #{messages}
                 
     block content
     

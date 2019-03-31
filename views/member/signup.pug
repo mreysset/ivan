@@ -1,0 +1,25 @@
+extends ../layout
+
+block content
+
+    form(method='POST' action='/member/signup')
+        div.form-group
+            label(for='first_name') First Name:
+            input#name.form-control(type='text', placeholder='ex: John' name='first_name')
+        div.form-group
+            label(for='last_name') Last Name:
+            input#name.form-control(type='text', placeholder='ex: Doe' name='last_name')
+        div.form-group
+            label(for='email') Email:
+            input#email.form-control(type='email', placeholder='name@email.com' name='email')
+        div.form-group
+            label(for='username') Username:
+            input#username.form-control(type='text', placeholder='ex: johndoe' name='username')
+        div.form-group
+            label(for='pw') Password:
+            input#pw.form-control(type='password' name='password')
+        div.form-group
+            label(for='pw2') Confirm Password:
+            input#pw2.form-control(type='password' name='confirmPassword')
+        div.form-group
+            button.btn.btn-primary(type='submit') Sign up

@@ -17,5 +17,4 @@ VideoSchema.virtual('url').get(function(){
     return '/video/' + this._id;
 });
 
-//Export model
 module.exports = mongoose.model('Video', VideoSchema);
