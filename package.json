@@ -8,6 +8,7 @@
     "test": "mocha"
   },
   "dependencies": {
+    "argon2": "^0.21.0",
     "body-parser": "^1.18.3",
     "connect-ensure-login": "^0.1.1",
     "connect-flash": "^0.1.1",

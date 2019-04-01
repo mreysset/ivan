@@ -1,4 +1,6 @@
 const mongoose = require('mongoose');
+const crypto = require('crypto');
+const argon2 = require('argon2');
 
 const MemberSchema = new mongoose.Schema(
     {
@@ -10,13 +12,16 @@ const MemberSchema = new mongoose.Schema(
     }
 );
 
-
+//Check if password hashes match
 MemberSchema.methods.validPassword = function (password) {
-  if (password === this.password) {
-    return true; 
-  } else {
-    return false;
-  }
+    
+    var encodedHash = this.password;
+     
+    if(argon2.verify(encodedHash, password)) {
+        return true;
+    } else {
+        return false;
+    }
 }
 
 module.exports = mongoose.model('Member', MemberSchema);
