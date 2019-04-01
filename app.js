@@ -63,6 +63,12 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(require('forest-express-mongoose').init({
+    modelsDir: __dirname + '/models',
+    envSecret: process.env.FOREST_ENV_SECRET,
+    authSecret: process.env.FOREST_AUTH_SECRET,
+    mongoose: require('mongoose'),
+  }));
 
 app.use('/', indexRouter);
 app.use('/videos', videosRouter);

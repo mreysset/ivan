@@ -6,13 +6,16 @@ html
   body
     header
         p
-            p
-                a.logo(href='/', target='_self') Logo
-            p
+            div
+                a.logo(href='/', target='_self') Home
+            
+            div
                 a.signin(href='/member/signin') Sign In
-            p
+            
+            div
                 a.signup(href='/member/signup') Sign Up
-            p
+            
+            div
                 a.logout(href='/member/signout') Sign Out
                 
         if messages
