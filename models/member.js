@@ -13,15 +13,16 @@ const MemberSchema = new mongoose.Schema(
 );
 
 //Check if password hashes match
-MemberSchema.methods.validPassword = function (password) {
-    
+MemberSchema.methods.validPassword = async function (newPassword) {
     var encodedHash = this.password;
-     
-    if(argon2.verify(encodedHash, password)) {
-        return true;
-    } else {
-        return false;
-    }
-}
+    try {
+        if(await argon2.verify(encodedHash, newPassword)) {
+            return true
+        } 
+        else {
+            return false;
+        }
+    } catch (err) {return err}
+};
 
 module.exports = mongoose.model('Member', MemberSchema);

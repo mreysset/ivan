@@ -29,10 +29,16 @@ passport.use(new LocalStrategy(
     function(username, password, done) {
         Member.findOne({username: username}, function(err, user){
             if(err) { return done(err);}
-            if(!user || !user.validPassword(password)) {
+            if(!user) { 
                 return done(null, false, {messages: 'Incorrect Username or Password'});
             }
-            return done(null, user);
+            user.validPassword(password).then((result) => {
+                if(result && result!=undefined){
+                    return done(null, user);
+                } else {
+                    return done(null, false, {messages: 'Incorrect Username or Password'});
+                }
+            })
         });
     }
 ));
